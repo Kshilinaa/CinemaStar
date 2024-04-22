@@ -10,7 +10,6 @@
 		5E63F3972BD68AB600DD5401 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E63F3962BD68AB600DD5401 /* AppDelegate.swift */; };
 		5E63F3992BD68AB600DD5401 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E63F3982BD68AB600DD5401 /* SceneDelegate.swift */; };
 		5E63F39B2BD68AB600DD5401 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E63F39A2BD68AB600DD5401 /* ViewController.swift */; };
-		5E63F39E2BD68AB600DD5401 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E63F39C2BD68AB600DD5401 /* Main.storyboard */; };
 		5E63F3A12BD68AB600DD5401 /* CinemaStar.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5E63F39F2BD68AB600DD5401 /* CinemaStar.xcdatamodeld */; };
 		5E63F3A32BD68AB700DD5401 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E63F3A22BD68AB700DD5401 /* Assets.xcassets */; };
 		5E63F3A62BD68AB700DD5401 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E63F3A42BD68AB700DD5401 /* LaunchScreen.storyboard */; };
@@ -41,7 +40,6 @@
 		5E63F3962BD68AB600DD5401 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5E63F3982BD68AB600DD5401 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5E63F39A2BD68AB600DD5401 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5E63F39D2BD68AB600DD5401 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5E63F3A02BD68AB600DD5401 /* CinemaStar.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CinemaStar.xcdatamodel; sourceTree = "<group>"; };
 		5E63F3A22BD68AB700DD5401 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E63F3A52BD68AB700DD5401 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -104,7 +102,6 @@
 				5E63F3962BD68AB600DD5401 /* AppDelegate.swift */,
 				5E63F3982BD68AB600DD5401 /* SceneDelegate.swift */,
 				5E63F39A2BD68AB600DD5401 /* ViewController.swift */,
-				5E63F39C2BD68AB600DD5401 /* Main.storyboard */,
 				5E63F3A22BD68AB700DD5401 /* Assets.xcassets */,
 				5E63F3A42BD68AB700DD5401 /* LaunchScreen.storyboard */,
 				5E63F3A72BD68AB700DD5401 /* Info.plist */,
@@ -137,7 +134,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E63F3C02BD68AB800DD5401 /* Build configuration list for PBXNativeTarget "CinemaStar" */;
 			buildPhases = (
+				5E63F3CA2BD690C900DD5401 /* SwiftFormat */,
 				5E63F38F2BD68AB600DD5401 /* Sources */,
+				5E63F3C92BD6908900DD5401 /* SwiftLint */,
 				5E63F3902BD68AB600DD5401 /* Frameworks */,
 				5E63F3912BD68AB600DD5401 /* Resources */,
 			);
@@ -236,7 +235,6 @@
 			files = (
 				5E63F3A62BD68AB700DD5401 /* LaunchScreen.storyboard in Resources */,
 				5E63F3A32BD68AB700DD5401 /* Assets.xcassets in Resources */,
-				5E63F39E2BD68AB600DD5401 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +253,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5E63F3C92BD6908900DD5401 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		5E63F3CA2BD690C900DD5401 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5E63F38F2BD68AB600DD5401 /* Sources */ = {
@@ -301,14 +342,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		5E63F39C2BD68AB600DD5401 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5E63F39D2BD68AB600DD5401 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5E63F3A42BD68AB700DD5401 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -446,7 +479,6 @@
 				INFOPLIST_FILE = CinemaStar/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -474,7 +506,6 @@
 				INFOPLIST_FILE = CinemaStar/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

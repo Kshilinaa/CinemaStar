@@ -1,19 +1,14 @@
-//
-//  ViewController.swift
-//  CinemaStar
-//
-//  Created by Ксения Шилина on 22.04.2024.
-//
+// ViewController.swift
+// Copyright © RoadMap. All rights reserved.
 
 import UIKit
 
+/// класс
 class ViewController: UIViewController {
+    let vv = "kk"
 
     override func viewDidLoad() {
+        view.backgroundColor = .red
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
-
