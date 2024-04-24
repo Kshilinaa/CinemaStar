@@ -3,10 +3,8 @@
 
 import UIKit
 
-/// класс
+/// ViewController
 class ViewController: UIViewController {
-    let vv = "kk"
-
     override func viewDidLoad() {
         view.backgroundColor = .red
         super.viewDidLoad()
