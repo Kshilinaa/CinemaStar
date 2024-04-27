@@ -11,8 +11,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Override point for customization after application launch.
-        true
+        let token = "K7GHQAS-E64MB8F-GKDJMF4-NTV0J0C"
+        if KeychainService.shared.getToken() == nil {
+            KeychainService.shared.setToken(token: token)
+        }
+
+        return true
     }
 
     // MARK: UISceneSession Lifecycle
