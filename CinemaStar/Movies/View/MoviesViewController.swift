@@ -15,12 +15,11 @@ final class MoviesViewController: UIViewController {
         static let trailing: CGFloat = -16
         static let titleHeight: CGFloat = 50
         static let inset: CGFloat = 15
+        static let moviesCollectionViewIdentifier = "moviesCollectionViewIdentifier"
     }
 
     /// ViewModel списка фильмов
     let moviesViewModel: MoviesViewModel?
-    /// Сервис для работы с сетью
-    let networkService = NetworkService()
     /// Массив фильмов
     var movies: [Movie]?
 
@@ -58,13 +57,14 @@ final class MoviesViewController: UIViewController {
         collectionView.isScrollEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.accessibilityIdentifier = Constants.moviesCollectionViewIdentifier
         return collectionView
     }()
 
     // MARK: - Initializers
 
-    init(moviesListViewModel: MoviesViewModel?) {
-        moviesViewModel = moviesListViewModel
+    init(moviesViewModel: MoviesViewModel?) {
+        self.moviesViewModel = moviesViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -77,17 +77,8 @@ final class MoviesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        networkService.fetchMovies { result in
-            switch result {
-            case let .success(movies):
-                self.movies = movies
-                print(movies)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            case let .failure(error):
-                print(error.localizedDescription)
-            }
+        moviesViewModel?.fetchMovies {
+            self.collectionView.reloadData()
         }
         makeGradientBackgroundColor()
         setupSubviews()
@@ -122,6 +113,10 @@ final class MoviesViewController: UIViewController {
         collectionView.register(
             MoviesCollectionViewCell.self,
             forCellWithReuseIdentifier: MoviesCollectionViewCell().identifier
+        )
+        collectionView.register(
+            MoviesShimmerCollectionViewCell.self,
+            forCellWithReuseIdentifier: MoviesShimmerCollectionViewCell.identifier
         )
     }
 
@@ -169,22 +164,40 @@ final class MoviesViewController: UIViewController {
 
 extension MoviesViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movies?.count ?? 2
+        switch moviesViewModel?.state {
+        case .loading:
+            return 6
+        case let .data(movies):
+            return movies.count
+        default:
+            return 1
+        }
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MoviesCollectionViewCell().identifier,
-            for: indexPath
-        ) as? MoviesCollectionViewCell
-        else { return UICollectionViewCell() }
-        if let movies = movies {
+        switch moviesViewModel?.state {
+        case .loading:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MoviesShimmerCollectionViewCell.identifier,
+                for: indexPath
+            ) as? MoviesShimmerCollectionViewCell else { return UICollectionViewCell() }
+            cell.startShimming()
+            return cell
+        case let .data(movies):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MoviesCollectionViewCell.identifier,
+                for: indexPath
+            ) as? MoviesCollectionViewCell else { return UICollectionViewCell() }
             cell.configureCell(movie: movies[indexPath.item])
+
+            return cell
+        default:
+            break
         }
-        return cell
+        return UICollectionViewCell()
     }
 }
 
@@ -206,5 +219,10 @@ extension MoviesViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - MoviesViewController + UICollectionViewDelegate
 
 extension MoviesViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {}
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let movies = moviesViewModel?.movies[indexPath.item] else { return }
+        moviesViewModel?.moveToMovieDetailScreen(
+            id: movies.id
+        )
+    }
 }

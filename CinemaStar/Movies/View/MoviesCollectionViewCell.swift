@@ -14,12 +14,14 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
         static let height: CGFloat = 200
     }
 
+    static let identifier = "moviesListCollectionViewCell"
+
     // MARK: - Visual Components
 
     private let movieImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.clipsToBounds = true
         imageView.layer.cornerRadius = Constants.cornerRadius
-        imageView.layer.masksToBounds = true
         return imageView
     }()
 
@@ -28,14 +30,6 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
         label.textColor = .white
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let starLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.text = Constants.starLabel
         return label
     }()
 
@@ -45,6 +39,13 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
+        return label
+    }()
+
+    private let starLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.text = Constants.starLabel
         return label
     }()
 
@@ -121,10 +122,29 @@ final class MoviesCollectionViewCell: UICollectionViewCell {
         contentView.layer.cornerRadius = Constants.cornerRadius
     }
 
+    func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            guard let data = data, error == nil else {
+                print("Error loading image: \(error?.localizedDescription ?? "Unknown error")")
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+                return
+            }
+            let image = UIImage(data: data)
+            DispatchQueue.main.async {
+                completion(image)
+            }
+        }.resume()
+    }
+
     // MARK: - Configuration
 
     func configureCell(movie: Movie) {
-        movieImageView.image = UIImage(named: "filmEarth")
+        guard let url = movie.imageUrl else { return }
+        loadImage(from: url) { image in
+            self.movieImageView.image = image
+        }
         movieNameLabel.text = movie.movieName
         guard let rating = movie.rating else { return }
         ratingLabel.text = "\(rating)"

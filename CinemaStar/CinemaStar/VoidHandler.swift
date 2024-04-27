@@ -2,11 +2,10 @@
 // Copyright © RoadMap. All rights reserved.
 
 //  Created by Ксения Шилина on 22.04.2024.
-//
+// swiftlint:disable all
 import Foundation
 
 // Создаем типы для кложур
-// swiftlint:disable all
 public typealias VoidHandler = () -> Void
 public typealias BoolHandler = (Bool) -> Void
 public typealias StringHandler = (String) -> Void

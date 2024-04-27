@@ -5,5 +5,5 @@ import Foundation
 
 /// Дто модель фильмов
 struct MoviesDTO: Codable {
-    let docs: [Doc]
+    let docs: [MovieDTO]
 }

@@ -4,13 +4,27 @@
 import Foundation
 
 /// ДТО Модель из массива Doc
-struct Doc: Codable {
-    /// Идентификатор
-    let id: Int
-    /// Название
+struct MovieDTO: Codable {
+    /// Имя фильма
     let name: String
-    /// Рейтинг
-    let rating: Rating
-    /// Постер
-    let poster: Backdrop
+    /// ID фильма
+    let id: Int
+    /// ДТО-модель с ссылкой на картинку постера
+    let poster: PosterDTO
+    /// ДТО-модель с рейтингом фильма
+    let rating: RatingDTO?
+    /// Описание фильма
+    let description: String?
+    /// Год выпуска
+    let year: Int?
+    /// Страны
+    let countries: [CountriesDTO]?
+    /// Тип контента
+    let type: String?
+    /// Актеры
+    let persons: [PersonDTO]?
+    /// Языки
+    let spokenLanguages: [LanguageDTO]?
+    /// Похожие фильмы
+    let similarMovies: [MovieDTO]?
 }

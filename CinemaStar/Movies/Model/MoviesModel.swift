@@ -5,16 +5,19 @@ import Foundation
 
 /// Модель для  экрана с библиотекой фильмов
 struct Movie {
+    /// Индефикатор фильмма
+    let id: Int
     /// Название изображения фильма
-    let imageName: String?
+    let imageUrl: URL?
     /// Название фильма
     let movieName: String?
     /// Рейтинг фильма
     let rating: Double?
 
-    init(dto: Doc) {
-        imageName = dto.poster.url
+    init(dto: MovieDTO) {
+        id = dto.id
+        imageUrl = URL(string: dto.poster.url)
         movieName = dto.name
-        rating = Double(String(format: "%.1f", dto.rating.kp)) ?? 0
+        rating = Double(String(format: "%.1f", dto.rating?.kp ?? 1.0)) ?? 0
     }
 }

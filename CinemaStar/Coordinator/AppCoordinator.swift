@@ -15,26 +15,28 @@ final class AppCoordinator: BaseCoodinator {
         self.appBuilder = appBuilder
     }
 
-    // MARK: - Private Methods
+    // MARK: - Public Methods
 
     override func start() {
-        goToMoviesList()
+        goToMovies()
     }
 
-    private func goToMoviesList() {
-        let moviesListCoordinator = MoviesListCoordinator()
-        let moviesListModuleView = appBuilder.makeMoviesListModule(
-            coordinator: moviesListCoordinator
-        )
-        moviesListCoordinator.setViewController(controller: moviesListModuleView)
-        moviesListCoordinator.onFinishFlow = { [weak self] in
-            self?.remove(coordinator: moviesListCoordinator)
-            self?.goToMoviesDetail()
-        }
-        guard let moviesListView = moviesListCoordinator.rootController else { return }
-        add(coordinator: moviesListCoordinator)
+    func goToMovies() {
+        let moviesListModuleView = appBuilder.makeMoviesScreen(coordinator: self)
+        rootController = UINavigationController(rootViewController: moviesListModuleView)
+        guard let moviesListView = rootController else { return }
         setAsRoot​(​_​: moviesListView)
     }
 
-    private func goToMoviesDetail() {}
+    func goToMovieDetails(id: Int) {
+        let movieDetailModuleView = appBuilder.makeMovieDetailsScreen(
+            id: id,
+            coordinator: self
+        )
+        rootController?.pushViewController(movieDetailModuleView, animated: true)
+    }
+
+    func backToMoviesList() {
+        rootController?.popViewController(animated: true)
+    }
 }

@@ -4,6 +4,6 @@
 import Foundation
 
 /// ДТО Модель рейтинга
-struct Rating: Codable {
+struct RatingDTO: Codable {
     let kp: Double
 }

@@ -8,6 +8,7 @@ class BaseCoodinator {
     // MARK: - Public Properties
 
     var childCoordinators: [BaseCoodinator] = []
+    var rootController: UINavigationController?
 
     // MARK: - Public Methods
 
